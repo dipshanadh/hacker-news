@@ -34,6 +34,24 @@ const reducer = (state, action) => {
 				page: 0,
 			}
 
+		case HANDLE_PAGE:
+			if (payload === 'inc') {
+				let nextPage = state.page + 1
+
+				// Comparing with nbPages + 1 because the API has only 49 pages even though the nbPages is 50
+				if (nextPage > state.nbPages - 1) nextPage = 0
+
+				return { ...state, page: nextPage }
+			}
+			if (payload === 'dec') {
+				let prevPage = state.page - 1
+
+				// Assigning prevPage = state.nbPages - 1 to go to the last page
+				if (prevPage < 0) prevPage = state.nbPages - 1
+
+				return { ...state, page: prevPage }
+			}
+
 		default:
 			throw new Error(`No matching "${action.type}" action type`)
 	}
